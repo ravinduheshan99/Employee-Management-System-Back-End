@@ -7,7 +7,6 @@ import org.emp.entity.EmployeeEntity;
 import org.emp.repository.EmployeeRepository;
 import org.emp.service.EmployeeService;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +20,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     List<Employee> employeeList = new ArrayList();
 
     @Override
-    public void addEmployee(Employee employee) {
-        EmployeeEntity employeeEntity = mapper.convertValue(employee, EmployeeEntity.class);
-        repository.save(employeeEntity);
+    public Employee addEmployee(Employee employee) {
+        EmployeeEntity entity = mapper.convertValue(employee, EmployeeEntity.class);
+        repository.save(entity);
+        return mapper.convertValue(entity,Employee.class);
     }
 
     @Override
@@ -33,5 +33,24 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeList.add(mapper.convertValue(employeeEntity,Employee.class));
         });
         return employeeList;
+    }
+
+    @Override
+    public boolean deleteEmployeeById(Long id) {
+        if (repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Employee updateEmployee(Employee employee) {
+        if (repository.findById(employee.getId()).isPresent()){
+            EmployeeEntity entity = mapper.convertValue(employee, EmployeeEntity.class);
+            repository.save(entity);
+            return mapper.convertValue(entity,Employee.class);
+        }
+        return null;
     }
 }
