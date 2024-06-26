@@ -39,4 +39,14 @@ public class EmployeeController {
     public Employee updateEmployee(@RequestBody Employee employeee){
         return employeeServiceImpl.updateEmployee(employeee);
     }
+
+    @GetMapping("/find-by-id/{id}")
+    public Employee findEmployeeById(@PathVariable Long id){
+        return employeeServiceImpl.findEmployeeById(id);
+    }
+
+    @GetMapping("/find-by-fname/{fname}")
+    public List<Employee> findAllEmployeesByFirstName(@PathVariable String fname){
+        return employeeServiceImpl.findAllEmployeesByFirstName(fname);
+    }
 }
