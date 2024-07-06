@@ -40,12 +40,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public boolean deleteEmployeeById(Long id) {
-        if (repository.existsById(id)) {
+    public void deleteEmployeeById(Long id) {
+        if(repository.existsById(id)){
             repository.deleteById(id);
-            return true;
         }
-        return false;
     }
 
     @Override

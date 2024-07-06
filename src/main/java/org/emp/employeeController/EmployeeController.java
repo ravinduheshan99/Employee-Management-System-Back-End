@@ -27,13 +27,10 @@ public class EmployeeController {
     }
 
     @DeleteMapping("delete-emp/{id}")
-    @ResponseStatus(HttpStatus.GONE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public String deleteEmployee(@PathVariable Long id){
-        boolean response = employeeServiceImpl.deleteEmployeeById(id);
-        if (response){
-            return "Successfully Deleted";
-        }
-        return "Operation Unsuccessful";
+        employeeServiceImpl.deleteEmployeeById(id);
+        return "Deleted";
     }
 
     @PutMapping("/update-employee")
