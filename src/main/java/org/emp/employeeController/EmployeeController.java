@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/emp-controller")
 @RequiredArgsConstructor //constructor injection
+@CrossOrigin
 public class EmployeeController {
 
     final EmployeeService employeeServiceImpl; //constructor injection

@@ -15,22 +15,21 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
 
     final EmployeeRepository repository; //constructor injection
-    final ObjectMapper mapper;
 
     List<Employee> employeeList = new ArrayList();
 
     @Override
     public Employee addEmployee(Employee employee) {
-        EmployeeEntity entity = mapper.convertValue(employee, EmployeeEntity.class);
+        EmployeeEntity entity = new ObjectMapper().convertValue(employee, EmployeeEntity.class);
         repository.save(entity);
-        return mapper.convertValue(entity,Employee.class);
+        return new ObjectMapper().convertValue(entity,Employee.class);
     }
 
     @Override
     public List<Employee> getAllEmployees() {
         List<EmployeeEntity> employeeEntities = repository.findAll();
         employeeEntities.forEach(employeeEntity -> {
-            employeeList.add(mapper.convertValue(employeeEntity,Employee.class));
+            employeeList.add(new ObjectMapper().convertValue(employeeEntity,Employee.class));
         });
         return employeeList;
     }
@@ -47,9 +46,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee updateEmployee(Employee employee) {
         if (repository.findById(employee.getId()).isPresent()){
-            EmployeeEntity entity = mapper.convertValue(employee, EmployeeEntity.class);
+            EmployeeEntity entity = new ObjectMapper().convertValue(employee, EmployeeEntity.class);
             repository.save(entity);
-            return mapper.convertValue(entity,Employee.class);
+            return new ObjectMapper().convertValue(entity,Employee.class);
         }
         return null;
     }
@@ -57,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployeeById(Long id) {
         if (repository.findById(id).isPresent()){
-            return mapper.convertValue(repository.findById(id),Employee.class);
+            return new ObjectMapper().convertValue(repository.findById(id),Employee.class);
         }
         return null;
     }
@@ -67,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Iterable<EmployeeEntity> employeeEntities = repository.findAllByFirstName(fname);
         List<Employee> employees = new ArrayList<>();
         employeeEntities.forEach(employeeEntity -> {
-            employees.add(mapper.convertValue(employeeEntity, Employee.class));
+            employees.add(new ObjectMapper().convertValue(employeeEntity, Employee.class));
         });
         return employees;
     }
